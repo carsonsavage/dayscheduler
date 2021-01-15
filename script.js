@@ -33,7 +33,7 @@ saveBtn.on("click", function () {
     localStorage.setItem(time, schedule);
 });
 
-function pastPresentFuture() {
+function timeBlocks() {
     hour = time.hours();
     $(".time-block").each(function () {
         var thisHour = parseInt($(this).attr("id"));
@@ -50,4 +50,4 @@ function pastPresentFuture() {
     })
 }
 
-pastPresentFuture();
+timeBlocks();
