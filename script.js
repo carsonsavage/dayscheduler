@@ -16,9 +16,9 @@ $(document).ready(function () {
             var blockTime = parseInt($(this).attr("id").split("hour")[1]);
 
             if (blockTime < timeNow) {
-                $(this).css("backgroundColor", "gray");
-                // $(this).removeClass("present");
-                // $(this).addClass("past");
+                $(this).removeClass("future");
+                $(this).removeClass("present");
+                $(this).addClass("past");
             }
             else if (blockTime === timeNow) {
                 $(this).removeClass("past");
