@@ -1,53 +1,49 @@
-var hour9 = $("#9");
-var hour10 = $("#10");
-var hour11 = $("#11");
-var hour12 = $("#12");
-var hour1 = $("#13");
-var hour2 = $("#14");
-var hour3 = $("#15");
-var hour4 = $("#16");
-var hour5 = $("#17");
-var time = moment();
+var todayDate = moment().format('dddd, MMM Do YYYY');
+$("#currentDay").html(todayDate);
 
-function setPlanner() {
-
-    $("#currentDay").text(moment().format("dddd, MMMM Do YYYY"));
-
-    $(".time-block").each(function () {
-        var id = $(this).attr("id");
-        var schedule = localStorage.getItem(id);
-
-        if (schedule !== null) {
-            $(this).children(".schedule").val(schedule);
-        }
-    });
-}
-
-setPlanner();
-var saveBtn = $(".saveBtn");
-
-saveBtn.on("click", function () {
-    var time = $(this).parent().attr("id");
-    var schedule = $(this).siblings(".schedule").val();
-
-    localStorage.setItem(time, schedule);
-});
-
-function timeBlocks() {
-    hour = time.hours();
-    $(".time-block").each(function () {
-        var thisHour = parseInt($(this).attr("id"));
-
-        if (thisHour > hour) {
-            $(this).addClass("future")
-        }
-        else if (thisHour === hour) {
-            $(this).addClass("present");
-        }
-        else {
-            $(this).addClass("past");
-        }
+$(document).ready(function () {
+    $(".saveBtn").on("click", function () {
+        var text = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
+        localStorage.setItem(time, text);
     })
-}
+   
+    function timeTracker() {
+        var timeNow = moment().hour();
 
-timeBlocks();
+        // loop over time blocks
+        $(".time-block").each(function () {
+            var blockTime = parseInt($(this).attr("id").split("hour")[1]);
+
+            if (blockTime < timeNow) {
+                $(this).removeClass("future");
+                $(this).removeClass("present");
+                $(this).addClass("past");
+            }
+            else if (blockTime === timeNow) {
+                $(this).removeClass("past");
+                $(this).removeClass("future");
+                $(this).addClass("present");
+            }
+            else {
+                $(this).removeClass("present");
+                $(this).removeClass("past");
+                $(this).addClass("future");
+
+            }
+        })
+    }
+
+    $("#hour8 .description").val(localStorage.getItem("hour8"));
+    $("#hour9 .description").val(localStorage.getItem("hour9"));
+    $("#hour10 .description").val(localStorage.getItem("hour10"));
+    $("#hour11 .description").val(localStorage.getItem("hour11"));
+    $("#hour12 .description").val(localStorage.getItem("hour12"));
+    $("#hour13 .description").val(localStorage.getItem("hour13"));
+    $("#hour14 .description").val(localStorage.getItem("hour14"));
+    $("#hour15 .description").val(localStorage.getItem("hour15"));
+    $("#hour16 .description").val(localStorage.getItem("hour16"));
+    $("#hour17 .description").val(localStorage.getItem("hour17"));
+
+    timeTracker();
+})
